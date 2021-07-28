@@ -1,7 +1,7 @@
 import re
 
 def update_counter(count):
-    with open('datasetcounter.txt', 'r+') as f:
+    with open('../database/datasetcounter.txt', 'r+') as f:
         text = f.read()
         text2 = int(text)+1
         text = re.sub(count, str(text2), text)
@@ -11,7 +11,7 @@ def update_counter(count):
     return
 
 def get_counter():
-    with open('datasetcounter.txt','r') as f:
+    with open('../database/datasetcounter.txt','r') as f:
         count = f.readline()
         update_counter(count)
         return count
