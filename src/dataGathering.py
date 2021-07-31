@@ -6,7 +6,8 @@ import sys
 from datasetconfig import get_counter
 from json_write import write_to_json_file
 
-cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+# cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cam = cv2.VideoCapture(0)
 cam.set(3, 640) # set video width
 cam.set(4, 480) # set video height
 
@@ -28,7 +29,6 @@ count = 0
 
 while(True):
     ret, img = cam.read()
-    #img = cv2.flip(img, -1) # flip video image vertically
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_detector.detectMultiScale(gray, 1.3, 5)
 
@@ -37,7 +37,7 @@ while(True):
         count += 1
 
         # Save the captured image into the datasets folder
-        cv2.imwrite("../dataset/" + str(username) + str(face_id) + '_' + str(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.imwrite("../dataset/" + str(username)+ '_' + str(face_id) + '_' + str(count) + ".jpg", gray[y:y+h,x:x+w])
 
         cv2.imshow('image', img)
 
