@@ -3,8 +3,8 @@ import os
 import time
 import sys
 
-from datasetconfig import get_counter
-from json_write import write_to_json_file
+from datasetconfig import get_and_update_counter
+from json_operator import write_to_json_file
 
 # cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cam = cv2.VideoCapture(0)
@@ -14,7 +14,7 @@ cam.set(4, 480) # set video height
 face_detector = cv2.CascadeClassifier('../database/haarcascade_frontalface_default.xml')
 
 # For each person, enter one numeric face id - get the face id from get_counter()
-face_id = get_counter()
+face_id = get_and_update_counter()
 username = input("Please enter the name of the person: ")
 # Store the user data into the json database
 datastorage_status = write_to_json_file(face_id, username)

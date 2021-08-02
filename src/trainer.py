@@ -12,6 +12,9 @@ detector = cv2.CascadeClassifier("../database/haarcascade_frontalface_default.xm
 
 # function to get the images and label data
 def getImagesAndLabels():
+    if __name__ == '__getImagesAndLabels__':
+        getImagesAndLabels()
+
     imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
     faceSamples=[]
     ids = []
@@ -26,6 +29,9 @@ def getImagesAndLabels():
     return faceSamples,ids
 
 def train_images():
+    if __name__ == '__train_images__':
+        train_images()
+
     print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
     faces,ids = getImagesAndLabels()
     recognizer.train(faces, np.array(ids))
@@ -37,5 +43,5 @@ def train_images():
     print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids))))
     return
 
-getImagesAndLabels()
-train_images()
+# getImagesAndLabels()
+# train_images()
