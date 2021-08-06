@@ -34,9 +34,9 @@ def image_recognizer():
     minH = 0.1*cam.get(4)
 
     # setting a final limit for the timed loop
-    #end_time = time.time()
+    end_time = time.time() + 5
 
-    while True:
+    while time.time() < end_time:
         ret, img =cam.read()
         if ret==False:
             print("Error in Boolean Variable!!!")
@@ -58,13 +58,17 @@ def image_recognizer():
             # Check if confidence is less them 100 ==> "0" is perfect match
             if (confidence < 100):
                 id = names[id]
-                confidence = "  {0}%".format(round(100 - confidence))
+                confidence = "{0}".format(round(100 - confidence))
             else:
-                id = "unknown"
-                confidence = "  {0}%".format(round(100 - confidence))
+                id = "Unknown"
+                confidence = "{0}".format(round(100 - confidence))
+
+            if(int(confidence) >= 35):
+                # put the code to update the attendance here - consider the situation where id = Unknown 
+                print(confidence)
 
             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
-            cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)
+            cv2.putText(img, str(confidence + "%"), (x+5,y+h-5), font, 1, (255,255,0), 1)
 
         cv2.imshow('camera',img)
 
@@ -72,8 +76,8 @@ def image_recognizer():
         if k == 27:
             break
 
-        # Do a bit of cleanup
-        cam.release()
-        cv2.destroyAllWindows()
+    # Do a bit of cleanup
+    cam.release()
+    cv2.destroyAllWindows()
 
 image_recognizer()
