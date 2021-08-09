@@ -2,9 +2,20 @@ import cv2
 import numpy as np
 import os
 import time
+import sys
 
 from datasetconfig import get_counter
 from json_operator import populate_name_array
+from update_attendance import update
+
+def sum_of_array(confidence_array):
+    if __name__ == '__sum_of_array__':
+        sum_of_array(confidence_array)
+
+    i = 0
+    for c in confidence_array:
+        i = i+c
+    return i
 
 def image_recognizer():
     if __name__ == '__image_recognizer__':
@@ -19,6 +30,11 @@ def image_recognizer():
 
     # Get ID index number
     id = 0
+
+    # create a confidence_array
+    confidence_array = []
+
+    size_of_array = 0
 
     # Populate the names array
     names = ['None']
@@ -63,10 +79,10 @@ def image_recognizer():
                 id = "Unknown"
                 confidence = "{0}".format(round(100 - confidence))
 
-            if(int(confidence) >= 35):
-                # put the code to update the attendance here - consider the situation where id = Unknown 
-                print(confidence)
-
+            # Store all the confidence values recorder in an arraylist - in case of only if id is not Unknown
+            if(id!="Unknown"):
+                confidence_array.append(int(confidence))
+            size_of_array = len(confidence_array)
             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
             cv2.putText(img, str(confidence + "%"), (x+5,y+h-5), font, 1, (255,255,0), 1)
 
@@ -75,6 +91,13 @@ def image_recognizer():
         k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video
         if k == 27:
             break
+
+    #Calculate mean confidence - then apply the below condition
+    mean_confidence = sum_of_array(confidence_array)/size_of_array
+    if(int(mean_confidence) >= 25):
+        # put the code to update the attendance here - consider the situation where id = Unknown
+        if(id!='Unknown'):
+            update(id)
 
     # Do a bit of cleanup
     cam.release()
