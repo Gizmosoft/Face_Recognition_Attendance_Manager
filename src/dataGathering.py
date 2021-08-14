@@ -7,6 +7,9 @@ from datasetconfig import get_and_update_counter
 from json_operator import write_to_json_file
 
 def data_gatherer():
+    if __name__ == '__data_gatherer__':
+        data_gatherer()
+
     # cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     cam = cv2.VideoCapture(0)
     cam.set(3, 640) # set video width

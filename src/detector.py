@@ -49,8 +49,8 @@ def image_recognizer():
     minW = 0.1*cam.get(3)
     minH = 0.1*cam.get(4)
 
-    # setting a final limit for the timed loop
-    end_time = time.time() + 5
+    # setting a final limit for the timed loop = 10 seconds
+    end_time = time.time() + 10
 
     while time.time() < end_time:
         ret, img =cam.read()
@@ -98,9 +98,15 @@ def image_recognizer():
         # put the code to update the attendance here - consider the situation where id = Unknown
         if(id!='Unknown'):
             update(id)
+        else:
+            print("Looks like your face has not been trained yet!")
+            cam.release()
+            cv2.destroyAllWindows()
+            return
 
     # Do a bit of cleanup
     cam.release()
     cv2.destroyAllWindows()
+    return
 
-image_recognizer()
+#image_recognizer()
